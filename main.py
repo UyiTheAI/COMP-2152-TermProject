@@ -15,7 +15,6 @@ print(f"python version: {platform.python_version()}")
 hero = Hero()
 monster = Monster()
 
-
 # Define two Dice
 small_dice_options = list(range(1, 7))
 big_dice_options = list(range(1, 21))
@@ -143,7 +142,7 @@ if not input_invalid:
     print("    |    You're super neat, so you organize your belt alphabetically:")
     belt.sort()
     print("    |    Your belt: ", belt)
-    
+
     # Add crafting option here
     print("=========================================================================")
     print(" |", end=" ")
@@ -191,17 +190,17 @@ if not input_invalid:
         monster.combat_strength) + " using the " + power_roll + " magic power")
 
     # Lab Week 06 - Question 6
-    num_dream_lvls = -1 # Initialize the number of dream levels
+    num_dream_lvls = -1  # Initialize the number of dream levels
     while (num_dream_lvls < 0 or num_dream_lvls > 3):
         # Call Recursive function
         print("    |", end="    ")
         try:
             num_dream_lvls = input("How many dream levels do you want to go down? (Enter a number 0-3)")
-            # If the value entered was not an integer, set the number of dream levels to -1 and loop again 
+            # If the value entered was not an integer, set the number of dream levels to -1 and loop again
             if ((num_dream_lvls == "")):
                 num_dream_lvls = -1
                 print("Number entered must be a whole number between 0-3 inclusive, try again")
-    
+
             else:
                 num_dream_lvls = int(num_dream_lvls)
 
@@ -224,6 +223,29 @@ if not input_invalid:
     print("    ------------------------------------------------------------------")
     print("    |    You meet the monster. FIGHT!!")
     while monster.health_points > 0 and hero.health_points > 0:
+
+        # Emilio Barron Sosa feature: Mystery Chest every 3rd turn
+        if 'turn_count' not in locals():
+            turn_count = 1
+        else:
+            turn_count += 1
+
+        if turn_count % 3 == 0:
+            print("🎁 A mystery chest appears!")
+
+            if hero.health_points < 50:
+                options = ["Health", "Strength"]
+                reward = random.choice(options)
+
+                if reward == "Health":
+                    hero.health_points = min(100, hero.health_points + 20)
+                    print("    |    You gained 20 HP!")
+                else:
+                    hero.combat_strength += 5
+                    print("    |    Your strength increased by 5!")
+            else:
+                print("    |    You're too healthy to open the chest!")
+
         # Fight Sequence
         print("    |", end="    ")
 
@@ -261,7 +283,7 @@ if not input_invalid:
                 else:
                     num_stars = 2
 
-    if(monster.health_points <= 0):
+    if (monster.health_points <= 0):
         winner = "Hero"
     else:
         winner = "Monster"
@@ -290,6 +312,5 @@ if not input_invalid:
         stars_display = "*" * num_stars
         print("    |    Hero " + short_name + " gets <" + stars_display + "> stars")
 
-        functions.save_game(winner, hero_name=short_name, num_stars=num_stars)       
-
+        functions.save_game(winner, hero_name=short_name, num_stars=num_stars)
 

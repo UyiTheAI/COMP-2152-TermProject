@@ -1,13 +1,14 @@
 # Import the random library to use for the dice later
 import random
 
+
 # Will the line below print when you import function.py into main.py?
 # print("Inside function.py")
 
 
 def use_loot(belt, health_points):
     good_loot_options = ["Health Potion"]
-    crafted_loot_options = ["Leather Armor","Mystery Potion", "Glove of Secrets", "Healing Boots", "Encrypted Flask"]
+    crafted_loot_options = ["Leather Armor", "Mystery Potion", "Glove of Secrets", "Healing Boots", "Encrypted Flask"]
     bad_loot_options = ["Poison Potion", "Toxic Gauntlet"]
 
     print("    |    !!You see a monster in the distance! So you quickly use your first item:")
@@ -116,6 +117,7 @@ def monster_attacks(m_combat_strength, health_points):
         print("    |    The monster has reduced Player's health to: " + str(health_points))
     return health_points
 
+
 # Recursion
 # You can choose to go crazy, but it will reduce your health points by 5
 def inception_dream(num_dream_lvls):
@@ -180,6 +182,7 @@ def load_game():
         print("No previous game found. Starting fresh.")
     return last_game, total_monsters_killed
 
+
 # Lab 06 - Question 5b
 def adjust_combat_strength(combat_strength, m_combat_strength):
     # Lab Week 06 - Question 5 - Load the game
@@ -194,9 +197,11 @@ def adjust_combat_strength(combat_strength, m_combat_strength):
             combat_strength += 1
             print("    |    ... Increasing the hero's combat strength since you lost last time")
         else:
-            print("    |    ... Based on your previous game, neither the hero nor the monster's combat strength will be increased")
-            
-#Term Project
+            print(
+                "    |    ... Based on your previous game, neither the hero nor the monster's combat strength will be increased")
+
+
+# Term Project
 def craft_items(belt):
     # Define crafting recipes (ALL possible combinations)
     crafting_recipes = {
