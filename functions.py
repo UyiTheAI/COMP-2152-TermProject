@@ -6,13 +6,17 @@ import random
 
 
 def use_loot(belt, health_points):
-    good_loot_options = ["Health Potion", "Leather Boots"]
-    bad_loot_options = ["Poison Potion"]
+    good_loot_options = ["Health Potion"]
+    crafted_loot_options = ["Leather Armor","Mystery Potion", "Glove of Secrets", "Healing Boots", "Encrypted Flask"]
+    bad_loot_options = ["Poison Potion", "Toxic Gauntlet"]
 
     print("    |    !!You see a monster in the distance! So you quickly use your first item:")
     first_item = belt.pop(0)
     if first_item in good_loot_options:
         health_points = min(20, (health_points + 2))
+        print("    |    You used " + first_item + " to up your health to " + str(health_points))
+    elif first_item in crafted_loot_options:
+        health_points = min(20, (health_points + 5))
         print("    |    You used " + first_item + " to up your health to " + str(health_points))
     elif first_item in bad_loot_options:
         health_points = max(0, (health_points - 2))
@@ -191,5 +195,29 @@ def adjust_combat_strength(combat_strength, m_combat_strength):
             print("    |    ... Increasing the hero's combat strength since you lost last time")
         else:
             print("    |    ... Based on your previous game, neither the hero nor the monster's combat strength will be increased")
+            
+#Term Project
+def craft_items(belt):
+    # Define crafting recipes (ALL possible combinations)
+    crafting_recipes = {
+        frozenset(["Leather Boots", "Flimsy Gloves"]): "Leather Armor",
+        frozenset(["Health Potion", "Poison Potion"]): "Mystery Potion",
+        frozenset(["Secret Note", "Flimsy Gloves"]): "Glove of Secrets",
+        frozenset(["Poison Potion", "Flimsy Gloves"]): "Toxic Gauntlet",
+        frozenset(["Health Potion", "Leather Boots"]): "Healing Boots",
+        frozenset(["Secret Note", "Health Potion"]): "Encrypted Flask",
+    }
 
+    crafted = True
+    while crafted:
+        crafted = False
+        for ingredients, result in crafting_recipes.items():
+            if all(belt.count(item) >= list(ingredients).count(item) for item in ingredients):
+                for item in ingredients:
+                    belt.remove(item)
+                belt.append(result)
+                print(f"Crafted {result} from {list(ingredients)}!")
+                crafted = True
+                break  # Restart after crafting to avoid overlap
 
+    return belt

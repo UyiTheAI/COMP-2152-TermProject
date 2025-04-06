@@ -143,6 +143,14 @@ if not input_invalid:
     print("    |    You're super neat, so you organize your belt alphabetically:")
     belt.sort()
     print("    |    Your belt: ", belt)
+    
+    # Add crafting option here
+    print("=========================================================================")
+    print(" |", end=" ")
+    craft_choice = input("Would you like to craft items? (y/n): ")
+    if craft_choice.lower() == 'y':
+        belt = functions.craft_items(belt)
+        print(" | Your belt after crafting: ", belt)
 
     # Use Loot
     belt, hero.health_points = functions.use_loot(belt, hero.health_points)
