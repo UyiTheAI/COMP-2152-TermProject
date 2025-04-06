@@ -107,3 +107,7 @@ Monster has killed the hero previously.
 Total Monsters Killed: 0
 Monster has killed the hero previously.
 Total Monsters Killed: 0
+Monster has killed the hero previously.
+Total Monsters Killed: 0
+Hero OML has killed a monster and gained 3 stars.
+Total Monsters Killed: 1
