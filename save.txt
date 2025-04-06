@@ -83,12 +83,6 @@ Hero rrf has killed a monster and gained 3 stars.
 Total Monsters Killed: 1
 Monster has killed the hero previously.
 Total Monsters Killed: 0
-<<<<<<< HEAD
-Hero UyO has killed a monster and gained 3 stars.
-Total Monsters Killed: 1
-Hero Has has killed a monster and gained 3 stars.
-Total Monsters Killed: 1
-=======
 Monster has killed the hero previously.
 Total Monsters Killed: 0
 Monster has killed the hero previously.
@@ -113,4 +107,7 @@ Monster has killed the hero previously.
 Total Monsters Killed: 0
 Monster has killed the hero previously.
 Total Monsters Killed: 0
->>>>>>> 9cb923f (first comment)
+Monster has killed the hero previously.
+Total Monsters Killed: 0
+Hero OML has killed a monster and gained 3 stars.
+Total Monsters Killed: 1

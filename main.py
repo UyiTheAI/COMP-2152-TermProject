@@ -7,6 +7,15 @@ from monster import Monster
 
 # Put all the functions into another file and import them
 import functions
+# Import the random library to use for the dice later
+import random
+import os
+import platform
+from hero import Hero
+from monster import Monster
+
+# Put all the functions into another file and import them
+import functions
 
 print(f"operating system: {os.name}")
 print(f"python version: {platform.python_version()}")
@@ -14,6 +23,14 @@ print(f"python version: {platform.python_version()}")
 # Create Hero and Monster objects
 hero = Hero()
 monster = Monster()
+
+# 💪 Force hero to be unkillable
+hero.health_points = 999
+hero.combat_strength = 1
+
+# 🐌 Make monster weak and slow
+monster.health_points = 999
+monster.combat_strength = 1
 
 # Define two Dice
 small_dice_options = list(range(1, 7))
@@ -121,9 +138,8 @@ if not input_invalid:
     # Roll for monster health points
     print("    |", end="    ")
     input("Roll the dice for the monster's health points (Press enter)")
-    monster.health_points = random.choice(big_dice_options)
-    print("    |    Player rolled " + str(monster.health_points) + " health points for the monster")
-
+    # monster.health_points = random.choice(big_dice_options)
+    print("    |    Skipped monster roll — using 999 health for testing")
     # Collect Loot
     print("    ------------------------------------------------------------------")
     print("    |    !!You find a loot bag!! You look inside to find 2 items:")
@@ -222,7 +238,9 @@ if not input_invalid:
     # Loop while the monster and the player are alive. Call fight sequence functions
     print("    ------------------------------------------------------------------")
     print("    |    You meet the monster. FIGHT!!")
+    turn_count = 1
     while monster.health_points > 0 and hero.health_points > 0:
+
 
         # Emilio Barron Sosa feature: Mystery Chest every 3rd turn
         if 'turn_count' not in locals():
@@ -230,6 +248,7 @@ if not input_invalid:
         else:
             turn_count += 1
 
+        # Emilio Barron Sosa feature
         if turn_count % 3 == 0:
             print("🎁 A mystery chest appears!")
 
@@ -246,6 +265,8 @@ if not input_invalid:
             else:
                 print("    |    You're too healthy to open the chest!")
 
+
+        turn_count += 1
         # Fight Sequence
         print("    |", end="    ")
 
@@ -311,6 +332,8 @@ if not input_invalid:
     if not input_invalid:
         stars_display = "*" * num_stars
         print("    |    Hero " + short_name + " gets <" + stars_display + "> stars")
+
+        functions.save_game(winner, hero_name=short_name, num_stars=num_stars)
 
         functions.save_game(winner, hero_name=short_name, num_stars=num_stars)
 
