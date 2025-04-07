@@ -24,11 +24,19 @@ print(f"python version: {platform.python_version()}")
 hero = Hero()
 monster = Monster()
 
-# 💪 Force hero to be unkillable
+villagers = [
+    {"name": "Elder Mira", "type": "healer", "level_required": 1},
+    {"name": "Trader Juno", "type": "merchant", "level_required": 2},
+    {"name": "Guide Fen", "type": "guide", "level_required": 0},
+]
+# Give the hero a starting inventory if it doesn't already exist
+hero.inventory = getattr(hero, 'inventory', [])
+
+#  Force hero to be unkillable
 hero.health_points = 999
 hero.combat_strength = 1
 
-# 🐌 Make monster weak and slow
+#  Make monster weak and slow
 monster.health_points = 999
 monster.combat_strength = 1
 
@@ -234,6 +242,32 @@ if not input_invalid:
             num_dream_lvls = -1
             print("Invalid input! Please enter a whole number between 0 and 3.")
 
+    print("\nYou encounter some villagers on your path...")
+    available_villagers = [v for v in villagers if
+                           v["level_required"] <= hero.combat_strength and "token" not in hero.inventory]
+
+    for villager in available_villagers:
+        print(f"\nYou meet {villager['name']} the {villager['type']}!")
+        if villager["type"] == "healer":
+            if hero.health_points < 50:
+                hero.health_points += 30
+                print("They healed you for 30 HP!")
+            else:
+                print("You're already healthy. They wish you well.")
+
+        elif villager["type"] == "merchant":
+            if "gold" in hero.inventory:
+                print("You traded gold for a potion!")
+                hero.inventory.append("potion")
+            else:
+                print("You need gold to trade. The merchant shrugs.")
+
+        elif villager["type"] == "guide":
+            print("They whisper: 'Beware the chest on turn 6...'")
+
+    # Mark that you've talked to them so it doesn't repeat
+    hero.inventory.append("token")
+
     # Fight Sequence
     # Loop while the monster and the player are alive. Call fight sequence functions
     print("    ------------------------------------------------------------------")
@@ -336,4 +370,3 @@ if not input_invalid:
         functions.save_game(winner, hero_name=short_name, num_stars=num_stars)
 
         functions.save_game(winner, hero_name=short_name, num_stars=num_stars)
-
