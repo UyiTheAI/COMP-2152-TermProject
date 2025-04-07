@@ -203,7 +203,7 @@ if not input_invalid:
     # Increase the monster’s combat strength by its power
     monster.combat_strength += min(6, monster.combat_strength + monster_powers[power_roll])
     print("    |    The monster's combat strength is now " + str(
-        monster.combat_strength) + " using the " + power_roll + " magic power")
+        monster.combat_strength) + "using the " + power_roll + " magic power")
 
     # Lab Week 06 - Question 6
     num_dream_lvls = -1  # Initialize the number of dream levels
