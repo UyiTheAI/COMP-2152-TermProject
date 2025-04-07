@@ -81,3 +81,11 @@ Monster has killed the hero previously.
 Total Monsters Killed: 0
 Hero rrf has killed a monster and gained 3 stars.
 Total Monsters Killed: 1
+Hero ss has killed a monster and gained 1 stars.
+Hero ss has killed a monster and gained 1 stars.
+Monster has killed the hero previously
+Monster has killed the hero previously
+Hero ss has killed a monster and gained 3 stars.
+Hero sj has killed a monster and gained 3 stars.
+Hero ss has killed a monster and gained 3 stars.
+Monster has killed the hero previously

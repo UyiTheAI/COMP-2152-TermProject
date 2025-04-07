@@ -3,23 +3,33 @@ import random
 
 # Will the line below print when you import function.py into main.py?
 # print("Inside function.py")
-
+# it wont print because its commented out. 
 
 def use_loot(belt, health_points):
     good_loot_options = ["Health Potion", "Leather Boots"]
     bad_loot_options = ["Poison Potion"]
 
-    print("    |    !!You see a monster in the distance! So you quickly use your first item:")
-    first_item = belt.pop(0)
-    if first_item in good_loot_options:
-        health_points = min(20, (health_points + 2))
-        print("    |    You used " + first_item + " to up your health to " + str(health_points))
-    elif first_item in bad_loot_options:
-        health_points = max(0, (health_points - 2))
-        print("    |    You used " + first_item + " to hurt your health to " + str(health_points))
+    print("    |    !!You see a monster in the distance! So you quickly check your first item:")
+    if belt:
+        # Peek at the first item without removing it
+        first_item = belt[0]
+        if first_item in ["Dragon Scale", "Phoenix Feather", "Unicorn Horn"]:
+            print("    |    You decide to save the " + first_item + " for casting spells.")
+        else:
+            # Remove the item and apply its effect
+            first_item = belt.pop(0)
+            if first_item in good_loot_options:
+                health_points = min(20, (health_points + 2))
+                print("    |    You used " + first_item + " to up your health to " + str(health_points))
+            elif first_item in bad_loot_options:
+                health_points = max(0, (health_points - 2))
+                print("    |    You used " + first_item + " to hurt your health to " + str(health_points))
+            else:
+                print("    |    You used " + first_item + " but it's not helpful")
     else:
-        print("    |    You used " + first_item + " but it's not helpful")
+        print("    |    Your belt is empty!")
     return belt, health_points
+
 
 
 def collect_loot(loot_options, belt):
@@ -77,7 +87,6 @@ def hero_attacks(combat_strength, m_health_points):
     else:
         # Player only damaged the monster
         m_health_points -= combat_strength
-
         print("    |    You have reduced the monster's health to: " + str(m_health_points))
     return m_health_points
 
@@ -137,44 +146,25 @@ def inception_dream(num_dream_lvls):
 
 # Lab 06 - Question 3 and 4
 def save_game(winner, hero_name="", num_stars=0):
-    total_monsters_killed = 0
-    try:
-        with open("save.txt", "r") as file:
-            lines = file.readlines()
-            if lines:
-                last_line = lines[-1].strip()
-                if last_line.startswith("List of Monsters Killed:"):
-                    total_monsters_killed = int(last_line.split(":")[1].strip())
-    except FileNotFoundError:
-        print("No previous save found. Creating a new save file.")
-    if winner == "Hero":
-        total_monsters_killed += 1
     with open("save.txt", "a") as file:
         if winner == "Hero":
             file.write(f"Hero {hero_name} has killed a monster and gained {num_stars} stars.\n")
         elif winner == "Monster":
-            file.write("Monster has killed the hero previously.\n")
-        file.write(f"Total Monsters Killed: {total_monsters_killed}\n")
-
+            file.write("Monster has killed the hero previously\n")
 
 # Lab 06 - Question 5a
 def load_game():
-    total_monsters_killed = 0
-    last_game = None
     try:
         with open("save.txt", "r") as file:
+            print("    |    Loading from saved file ...")
             lines = file.readlines()
             if lines:
-                last_game = lines[-2].strip() if len(lines) > 1 else lines[-1].strip()
                 last_line = lines[-1].strip()
-                if last_line.startswith("Total Monsters Killed:"):
-                    total_monsters_killed = int(last_line.split(":")[1].strip())
-        print("    |    Loading from saved file ...")
-        print(last_game)
-        print(f"    |    Total Monsters Killed: {total_monsters_killed}")
+                print(last_line)
+                return last_line
     except FileNotFoundError:
         print("No previous game found. Starting fresh.")
-    return last_game, total_monsters_killed
+        return None
 
 # Lab 06 - Question 5b
 def adjust_combat_strength(combat_strength, m_combat_strength):
@@ -192,4 +182,58 @@ def adjust_combat_strength(combat_strength, m_combat_strength):
         else:
             print("    |    ... Based on your previous game, neither the hero nor the monster's combat strength will be increased")
 
+def cast_spell(belt, monster_health, hero_health):
+    """
+    Battle Spells feature: Uses items in the hero's belt to cast spells.
+    
+    Spells:
+      - If the belt contains both "Dragon Scale" and "Phoenix Feather": cast "Flame Shield" (bonus damage: 3).
+      - If the belt contains "Dragon Scale" but not "Phoenix Feather": cast "Dragon's Might" (bonus damage: 2).
+      - If neither of the above but the belt contains "Unicorn Horn": cast "Healing Light" (heal hero by 3).
+      - Otherwise, no spell is cast.
+      
+    Items used for the spell are removed from the belt.
+    """
+    
+    print("    |     Current belt:", belt)
+    
+    spell = "No Spell"
+    bonus_damage = 0
+    heal_amount = 0
+
+   
+    if "Dragon Scale" in belt:
+        if "Phoenix Feather" in belt:
+            spell = "Flame Shield"
+            bonus_damage = 3
+            print("    |     Found Dragon Scale and Phoenix Feather.")
+            belt.remove("Dragon Scale")
+            belt.remove("Phoenix Feather")
+        else:
+            spell = "Dragon's Might"
+            bonus_damage = 2
+            print("    |     Found Dragon Scale without Phoenix Feather.")
+            belt.remove("Dragon Scale")
+    elif "Unicorn Horn" in belt:
+        spell = "Healing Light"
+        heal_amount = 3
+        print("    |     Found Unicorn Horn.")
+        belt.remove("Unicorn Horn")
+    else:
+        print("    |    No applicable magical items found.")
+    
+    if spell in ["Flame Shield", "Dragon's Might"]:
+        print(f"    |    Casting {spell}! It deals an extra {bonus_damage} damage to the monster!")
+        monster_health = max(0, monster_health - bonus_damage)
+    elif spell == "Healing Light":
+        print(f"    |    Casting {spell}! It heals the hero by {heal_amount} points!")
+        hero_health = min(20, hero_health + heal_amount)
+    else:
+        print("    |    No magical items available to cast a spell.")
+    
+    
+    print("    |     Updated belt:", belt)
+    print("    |  Monster health:", monster_health, "Hero health:", hero_health)
+    
+    return belt, monster_health, hero_health
 
